@@ -1,16 +1,17 @@
 export default {
   translation: {
-    posts: 'Посты',
-    feeds: 'Фиды',
-    emptyTitle: 'Без названия',
-    modalButtonName: 'Просмотр',
-    feedbackMessage: {
-      notValidRss: 'Ресурс не содержит валидный RSS',
-      alreadyExists: 'RSS уже существует',
-      validURL: 'Ссылка должна быть валидным URL',
-      successMsg: 'RSS успешно загружен',
-      networkError: 'Ошибка сети',
-      unknownError: 'Неизвестная ошибка. Что-то пошло не так.',
+    form: {
+      success: 'RSS успешно загружен',
+      errors: {
+        notUniqueUrl: 'RSS уже существует',
+        required: 'Не должно быть пустым',
+        notValidUrl: 'Ссылка должна быть валидным URL',
+        notValidRss: 'Ресурс не содержит валидный RSS',
+        networkProblems: 'Ошибка сети',
+      },
     },
+    feeds: 'Фиды',
+    posts: 'Посты',
+    viewButton: 'Просмотр',
   },
 };
