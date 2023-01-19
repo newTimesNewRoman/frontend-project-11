@@ -14,15 +14,13 @@ export default () => {
   })
     .then(() => {
       const state = {
-        streamLoadingStatus: 'init',
-        validStatus: null,
-        errorMsgFeedback: null,
+        form: {
+          state: 'filling',
+          error: null,
+          valid: true,
+        },
         feeds: [],
         posts: [],
-        uiState: {
-          modalPostId: null,
-          visitedPosts: [],
-        },
       };
       app(state, i18nextInstance);
     });
