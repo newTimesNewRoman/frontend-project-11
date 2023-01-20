@@ -5,8 +5,8 @@ export default {
       errors: {
         notUniqueUrl: 'RSS уже существует',
         required: 'Не должно быть пустым',
-        notValidUrl: 'Ссылка должна быть валидным URL',
-        notValidRss: 'Ресурс не содержит валидный RSS',
+        invalidUrl: 'Ссылка должна быть валидным URL',
+        invalidRss: 'Ресурс не содержит валидный RSS',
         networkProblems: 'Ошибка сети',
       },
     },
