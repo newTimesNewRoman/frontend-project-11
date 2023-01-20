@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import * as yup from 'yup';
-import watch from './render';
+import render from './render';
 
 const validateUrl = (url, feeds, i18next) => {
   yup.setLocale({
@@ -33,7 +33,7 @@ const app = (initState, i18next) => {
     feedback: document.querySelector('.feedback'),
   };
 
-  const watchedState = watch(initState, elements, i18next);
+  const watchedState = render(initState, elements, i18next);
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ const app = (initState, i18next) => {
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
         console.log(url);
-        // return fetchData(url);
+        // return getRSS(url);
       })
       .catch((error) => {
         watchedState.form.valid = error.name !== 'ValidationError';
