@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import * as yup from 'yup';
 import render from './render';
+import getRSS from './getRSS';
+import parser from './parser';
 
 const validateUrl = (url, feeds, i18next) => {
   yup.setLocale({
     string: {
-      url: i18next.t('form.errors.notValidUrl'),
+      url: i18next.t('form.errors.invalidUrl'),
     },
     mixed: {
       required: i18next.t('form.errors.required'),
@@ -25,35 +27,33 @@ const validateUrl = (url, feeds, i18next) => {
     });
 };
 
-const app = (initState, i18next) => {
-  const elements = {
-    form: document.querySelector('.rss-form'),
-    input: document.querySelector('#url-input'),
-    submit: document.querySelector('button[type="submit"]'),
-    feedback: document.querySelector('.feedback'),
-  };
-
+const app = (initState, elements, i18next) => {
   const watchedState = render(initState, elements, i18next);
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const { value } = elements.input;
+    watchedState.form.valid = true;
     validateUrl(value, initState.feeds, i18next)
       .then((url) => {
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
-        console.log(url);
-        // return getRSS(url);
+        return getRSS(url);
+      })
+      .then((rss) => {
+        const data = parser(rss.data.contents);
+        console.log(data);
+        watchedState.form.state = 'success';
       })
       .catch((error) => {
-        watchedState.form.valid = error.name !== 'ValidationError';
+        watchedState.form.valid = false;
         if (error.name === 'ValidationError') {
           watchedState.form.error = error.message;
-        } /* else if (error.NotValidRss) {
-          watchedState.form.error = 'form.errors.notValidRss';
-        }  else if (axios.isAxiosError(err)) {
+        } else if (error.message === 'ParseError') {
+          watchedState.form.error = i18next.t('form.errors.invalidRss');
+        } else if (error.name === 'AxiosError') {
           watchedState.form.error = 'form.errors.networkProblems';
-        } */
+        }
         watchedState.form.state = 'filling';
       });
   });

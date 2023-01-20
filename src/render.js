@@ -24,10 +24,10 @@ const handleProcessState = (processState, elements, i18next) => {
       elements.input.readOnly = false;
       elements.submit.disabled = false;
       elements.form.reset();
-      elements.form.focus();
+      elements.input.focus();
       elements.feedback.classList.remove('text-danger');
       elements.feedback.classList.add('text-success');
-      elements.feedbackContainer.textContent = i18next.t('form.success');
+      elements.feedback.textContent = i18next.t('form.success');
       break;
     default:
       throw new Error(`Unknown process state: ${processState}`);
