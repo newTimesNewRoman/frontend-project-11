@@ -1,31 +1,8 @@
 /* eslint-disable no-param-reassign */
-import * as yup from 'yup';
-import render from './render';
+import validate from './validate';
 import getRSS from './getRSS';
 import parser from './parser';
-
-const validateUrl = (url, feeds, i18next) => {
-  yup.setLocale({
-    string: {
-      url: i18next.t('form.errors.invalidUrl'),
-    },
-    mixed: {
-      required: i18next.t('form.errors.required'),
-      notOneOf: i18next.t('form.errors.notUniqueUrl'),
-    },
-  });
-
-  const schema = yup
-    .string()
-    .url()
-    .notOneOf(feeds);
-
-  return schema
-    .validate(url)
-    .catch((error) => {
-      throw error;
-    });
-};
+import render from './render';
 
 const app = (initState, elements, i18next) => {
   const watchedState = render(initState, elements, i18next);
@@ -34,7 +11,7 @@ const app = (initState, elements, i18next) => {
     e.preventDefault();
     const { value } = elements.input;
     watchedState.form.valid = true;
-    validateUrl(value, initState.feeds, i18next)
+    validate(value, initState.feeds, i18next)
       .then((url) => {
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
