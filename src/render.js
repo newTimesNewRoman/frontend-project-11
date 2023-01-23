@@ -25,6 +25,7 @@ const handleProcessState = (processState, elements, i18next) => {
       elements.submit.disabled = false;
       elements.form.reset();
       elements.input.focus();
+      elements.input.classList.remove('is-invalid');
       elements.feedback.classList.remove('text-danger');
       elements.feedback.classList.add('text-success');
       elements.feedback.textContent = i18next.t('form.success');

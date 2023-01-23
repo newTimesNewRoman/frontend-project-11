@@ -1,6 +1,6 @@
 export default (rss) => {
   const parser = new DOMParser();
-  const parsedRss = parser.parseFromString(rss, 'application/xml');
+  const parsedRss = parser.parseFromString(rss.data.contents, 'application/xml');
   const parseError = parsedRss.querySelector('parsererror');
   if (parseError) {
     throw new Error('ParseError');
@@ -8,6 +8,7 @@ export default (rss) => {
     const feed = {
       title: parsedRss.querySelector('title').textContent,
       description: parsedRss.querySelector('description').textContent,
+      url: rss.data.status.url,
     };
 
     const posts = Array.from(parsedRss.querySelectorAll('item'))

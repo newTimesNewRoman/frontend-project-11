@@ -12,22 +12,25 @@ const app = (initState, elements, i18next) => {
     e.preventDefault();
     const { value } = elements.input;
     watchedState.form.valid = true;
-    validate(value, initState.feeds, i18next)
+    const urls = watchedState.feeds.map((feed) => feed.url);
+    validate(value, urls, i18next)
       .then((url) => {
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
         return getRSS(url);
       })
       .then((rss) => {
-        const [feed, posts] = parser(rss.data.contents);
+        const [feed, posts] = parser(rss);
         const feedId = _.uniqueId();
         const feedWithId = { id: feedId, ...feed };
         const postsWithId = posts.map((post) => ({ id: _.uniqueId(), feedId, ...post }));
         console.log(feedWithId, postsWithId);
         watchedState.form.state = 'success';
+        watchedState.feeds = [feedWithId, ...watchedState.feeds];
+        watchedState.posts = [...postsWithId, ...watchedState.posts];
       })
       .catch((error) => {
-        watchedState.form.valid = false;
+        watchedState.form.valid = error.name !== 'ValidationError';
         if (error.name === 'ValidationError') {
           watchedState.form.error = error.message;
         } else if (error.message === 'ParseError') {

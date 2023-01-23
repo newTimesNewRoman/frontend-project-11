@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export default (url, feeds, i18next) => {
+export default (url, urls, i18next) => {
   yup.setLocale({
     string: {
       url: i18next.t('form.errors.invalidUrl'),
@@ -14,7 +14,7 @@ export default (url, feeds, i18next) => {
   const schema = yup
     .string()
     .url()
-    .notOneOf(feeds);
+    .notOneOf(urls);
 
   return schema
     .validate(url)
