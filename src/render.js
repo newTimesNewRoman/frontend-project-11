@@ -45,22 +45,25 @@ const handleProcessState = (processState, elements, i18next) => {
 
 const renderFeeds = (value, elements, i18next) => {
   const headerFeeds = document.createElement('h2');
+  headerFeeds.setAttribute('class', 'card-title h4');
   headerFeeds.textContent = i18next.t('feeds');
 
   const feedsList = document.createElement('ul');
-  feedsList.setAttribute('class', 'list-group mb-5');
+  feedsList.setAttribute('class', 'list-group border-0 rounded-0');
 
   value.forEach((feed) => {
     const feedElement = document.createElement('li');
-    feedElement.setAttribute('class', 'list-group-item');
+    feedElement.setAttribute('class', 'list-group-item border-0 border-end-0');
 
     const feedTitle = document.createElement('h3');
+    feedTitle.setAttribute('class', 'h6 m-0');
     feedTitle.textContent = feed.title;
     const feedDescription = document.createElement('p');
+    feedDescription.setAttribute('class', 'm-0 small text-black-50');
     feedDescription.textContent = feed.description;
 
     feedElement.append(feedTitle, feedDescription);
-    feedsList.append(feedElement);
+    feedsList.prepend(feedElement);
   });
   elements.feedsConteiner.innerHTML = '';
   elements.feedsConteiner.prepend(feedsList);
@@ -69,6 +72,7 @@ const renderFeeds = (value, elements, i18next) => {
 
 const renderPosts = (state, elements, i18next) => {
   const headerPosts = document.createElement('h2');
+  headerPosts.setAttribute('class', 'card-title h4');
   headerPosts.textContent = i18next.t('posts');
 
   const postsList = document.createElement('ul');
@@ -76,7 +80,7 @@ const renderPosts = (state, elements, i18next) => {
 
   state.posts.forEach((post) => {
     const postElement = document.createElement('li');
-    postElement.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-start');
+    postElement.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0');
     // const visitedLink = _.includes(state.uiState.visitedPosts, post.id);
     // eslint-disable-next-line max-len
     // const classLink = visitedLink ? 'font-weight-normal fw-normal text-decoration-none' : 'font-weight-bold fw-bold text-decoration-none';
