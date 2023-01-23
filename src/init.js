@@ -27,6 +27,8 @@ export default () => {
         input: document.querySelector('#url-input'),
         submit: document.querySelector('button[type="submit"]'),
         feedback: document.querySelector('.feedback'),
+        feedsConteiner: document.querySelector('.feeds'),
+        postsConteiner: document.querySelector('.posts'),
       };
 
       app(state, elements, i18nextInstance);

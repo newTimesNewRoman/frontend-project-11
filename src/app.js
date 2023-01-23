@@ -24,7 +24,7 @@ const app = (initState, elements, i18next) => {
         const feedId = _.uniqueId();
         const feedWithId = { id: feedId, ...feed };
         const postsWithId = posts.map((post) => ({ id: _.uniqueId(), feedId, ...post }));
-        console.log(feedWithId, postsWithId);
+        // console.log(feedWithId, postsWithId);
         watchedState.form.state = 'success';
         watchedState.feeds = [feedWithId, ...watchedState.feeds];
         watchedState.posts = [...postsWithId, ...watchedState.posts];
