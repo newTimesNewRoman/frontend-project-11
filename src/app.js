@@ -4,12 +4,14 @@ import validate from './validate';
 import getRSS from './getRSS';
 import parser from './parser';
 import render from './render';
+import update from './update';
 
 const app = (initState, elements, i18next) => {
   const watchedState = render(initState, elements, i18next);
+  update(watchedState);
 
-  elements.form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  elements.form.addEventListener('submit', (event) => {
+    event.preventDefault();
     const { value } = elements.input;
     watchedState.form.valid = true;
     const urls = watchedState.feeds.map((feed) => feed.url);
@@ -24,7 +26,6 @@ const app = (initState, elements, i18next) => {
         const feedId = _.uniqueId();
         const feedWithId = { id: feedId, ...feed };
         const postsWithId = posts.map((post) => ({ id: _.uniqueId(), feedId, ...post }));
-        // console.log(feedWithId, postsWithId);
         watchedState.form.state = 'success';
         watchedState.feeds = [feedWithId, ...watchedState.feeds];
         watchedState.posts = [...postsWithId, ...watchedState.posts];
