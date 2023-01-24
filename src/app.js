@@ -4,11 +4,11 @@ import validate from './validate';
 import getRSS from './getRSS';
 import parser from './parser';
 import render from './render';
-// import update from './update';
+import update from './update';
 
 const app = (initState, elements, i18next) => {
   const watchedState = render(initState, elements, i18next);
-  // update(watchedState);
+  update(watchedState);
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
