@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import onChange from 'on-change';
+import _ from 'lodash';
 
 const renderError = (error, elements, i18next) => {
   elements.feedback.textContent = '';
@@ -81,13 +82,12 @@ const renderPosts = (state, elements, i18next) => {
   state.posts.forEach((post) => {
     const postElement = document.createElement('li');
     postElement.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0');
-    // const visitedLink = _.includes(state.uiState.visitedPosts, post.id);
-    // eslint-disable-next-line max-len
-    // const classLink = visitedLink ? 'font-weight-normal fw-normal text-decoration-none' : 'font-weight-bold fw-bold text-decoration-none';
+    const visitedLink = _.includes(state.visitedPosts, post.id);
+    const classLink = visitedLink ? 'fw-normal link-secondary' : 'fw-bold';
 
     const linkElement = document.createElement('a');
     linkElement.setAttribute('href', post.link);
-    linkElement.setAttribute('class', 'font-weight-bold fw-bold text-decoration-none');
+    linkElement.setAttribute('class', classLink);
     linkElement.setAttribute('data-id', post.id);
     linkElement.setAttribute('target', '_blank');
     linkElement.setAttribute('rel', 'noopener noreferrer');
@@ -109,6 +109,18 @@ const renderPosts = (state, elements, i18next) => {
   elements.postsConteiner.prepend(headerPosts);
 };
 
+const markVisitedPosts = (value) => {
+  const lastVisitedPost = _.last(value);
+  document.querySelector(`a[data-id="${lastVisitedPost}"]`).setAttribute('class', 'fw-normal link-secondary');
+};
+
+const renderModalWindow = (state, value, elements) => {
+  const dataPost = _.find(state.posts, { id: value });
+  elements.modalTitle.textContent = dataPost.title;
+  elements.modalBody.textContent = dataPost.description;
+  elements.modalBtnLink.setAttribute('href', dataPost.link);
+};
+
 export default (state, elements, i18next) => onChange(state, (path, value) => {
   switch (path) {
     case 'form.error':
@@ -125,6 +137,12 @@ export default (state, elements, i18next) => onChange(state, (path, value) => {
       break;
     case 'posts':
       renderPosts(state, elements, i18next);
+      break;
+    case 'visitedPosts':
+      markVisitedPosts(value);
+      break;
+    case 'modalWindowPostId':
+      renderModalWindow(state, value, elements);
       break;
     default:
       throw new Error(`Unknown path: ${path}`);

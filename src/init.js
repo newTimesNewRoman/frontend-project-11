@@ -20,6 +20,8 @@ export default () => {
         },
         feeds: [],
         posts: [],
+        modalWindowPostId: null,
+        visitedPosts: [],
       };
 
       const elements = {
@@ -29,6 +31,10 @@ export default () => {
         feedback: document.querySelector('.feedback'),
         feedsConteiner: document.querySelector('.feeds'),
         postsConteiner: document.querySelector('.posts'),
+        modalWindow: document.querySelector('#modal'),
+        modalTitle: document.querySelector('.modal-title'),
+        modalBody: document.querySelector('.modal-body'),
+        modalBtnLink: document.querySelector('.full-article'),
       };
 
       app(state, elements, i18nextInstance);

@@ -4,11 +4,11 @@ import validate from './validate';
 import getRSS from './getRSS';
 import parser from './parser';
 import render from './render';
-import update from './update';
+// import update from './update';
 
 const app = (initState, elements, i18next) => {
   const watchedState = render(initState, elements, i18next);
-  update(watchedState);
+  // update(watchedState);
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -41,6 +41,12 @@ const app = (initState, elements, i18next) => {
         }
         watchedState.form.state = 'filling';
       });
+  });
+
+  elements.modalWindow.addEventListener('show.bs.modal', (event) => {
+    const postId = event.relatedTarget.dataset.id;
+    watchedState.visitedPosts.push(postId);
+    watchedState.modalWindowPostId = postId;
   });
 };
 
