@@ -40,6 +40,8 @@ const app = (initState, elements, i18n) => {
           watchedState.form.error = i18n.t('form.errors.invalidRss');
         } else if (error.name === 'AxiosError') {
           watchedState.form.error = 'form.errors.networkProblems';
+        } else {
+          watchedState.form.error = 'form.errors.unknownError';
         }
         watchedState.form.state = 'filling';
       });
