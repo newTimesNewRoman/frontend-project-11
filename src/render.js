@@ -82,7 +82,7 @@ const renderPosts = (state, elements, i18next) => {
   state.posts.forEach((post) => {
     const postElement = document.createElement('li');
     postElement.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0');
-    const visitedLink = _.includes(state.visitedPosts, post.id);
+    const visitedLink = state.ui.visitedPostsIds.has(post.id);
     const classLink = visitedLink ? 'fw-normal link-secondary' : 'fw-bold';
 
     const linkElement = document.createElement('a');
@@ -110,7 +110,7 @@ const renderPosts = (state, elements, i18next) => {
 };
 
 const markVisitedPosts = (value) => {
-  const lastVisitedPost = _.last(value);
+  const lastVisitedPost = [...value].pop();
   document.querySelector(`a[data-id="${lastVisitedPost}"]`).setAttribute('class', 'fw-normal link-secondary');
 };
 
@@ -138,10 +138,10 @@ const render = (state, elements, i18next) => onChange(state, (path, value) => {
     case 'posts':
       renderPosts(state, elements, i18next);
       break;
-    case 'visitedPosts':
+    case 'ui.visitedPostsIds':
       markVisitedPosts(value);
       break;
-    case 'modalWindowPostId':
+    case 'ui.modalWindowPostId':
       renderModalWindow(state, value, elements);
       break;
     default:

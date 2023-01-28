@@ -49,8 +49,8 @@ const app = (initState, elements, i18n) => {
 
   elements.modalWindow.addEventListener('show.bs.modal', (event) => {
     const postId = event.relatedTarget.dataset.id;
-    watchedState.visitedPosts.push(postId);
-    watchedState.modalWindowPostId = postId;
+    watchedState.ui.visitedPostsIds.add(postId);
+    watchedState.ui.modalWindowPostId = postId;
   });
 };
 
@@ -72,8 +72,10 @@ const initApp = () => {
         },
         feeds: [],
         posts: [],
-        modalWindowPostId: null,
-        visitedPosts: [],
+        ui: {
+          modalWindowPostId: null,
+          visitedPostsIds: new Set(),
+        },
       };
 
       const elements = {
