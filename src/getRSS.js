@@ -7,7 +7,9 @@ const buildPath = (url) => {
   return urlWithProxy.toString();
 };
 
-export default (url) => {
+const getRSS = (url) => {
   const proxyURL = buildPath(url);
   return axios.get(proxyURL);
 };
+
+export default getRSS;

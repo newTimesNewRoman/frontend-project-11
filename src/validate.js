@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export default (url, urls, i18next) => {
+const validate = (url, urls, i18next) => {
   yup.setLocale({
     string: {
       url: i18next.t('form.errors.invalidUrl'),
@@ -22,3 +22,5 @@ export default (url, urls, i18next) => {
       throw error;
     });
 };
+
+export default validate;

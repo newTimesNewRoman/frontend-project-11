@@ -1,13 +1,15 @@
 /* eslint-disable no-param-reassign */
+import i18next from 'i18next';
 import _ from 'lodash';
+import ru from './locales/ru.js';
 import validate from './validate';
 import getRSS from './getRSS';
 import parser from './parser';
 import render from './render';
 import update from './update';
 
-const app = (initState, elements, i18next) => {
-  const watchedState = render(initState, elements, i18next);
+const app = (initState, elements, i18n) => {
+  const watchedState = render(initState, elements, i18n);
   update(watchedState);
 
   elements.form.addEventListener('submit', (event) => {
@@ -15,7 +17,7 @@ const app = (initState, elements, i18next) => {
     const { value } = elements.input;
     watchedState.form.valid = true;
     const urls = watchedState.feeds.map((feed) => feed.url);
-    validate(value, urls, i18next)
+    validate(value, urls, i18n)
       .then((url) => {
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
@@ -35,7 +37,7 @@ const app = (initState, elements, i18next) => {
         if (error.name === 'ValidationError') {
           watchedState.form.error = error.message;
         } else if (error.message === 'ParseError') {
-          watchedState.form.error = i18next.t('form.errors.invalidRss');
+          watchedState.form.error = i18n.t('form.errors.invalidRss');
         } else if (error.name === 'AxiosError') {
           watchedState.form.error = 'form.errors.networkProblems';
         }
@@ -50,4 +52,43 @@ const app = (initState, elements, i18next) => {
   });
 };
 
-export default app;
+const initApp = () => {
+  const i18nextInstance = i18next.createInstance();
+  return i18nextInstance.init({
+    lng: 'ru',
+    debug: false,
+    resources: {
+      ru,
+    },
+  })
+    .then(() => {
+      const state = {
+        form: {
+          state: 'filling',
+          error: null,
+          valid: true,
+        },
+        feeds: [],
+        posts: [],
+        modalWindowPostId: null,
+        visitedPosts: [],
+      };
+
+      const elements = {
+        form: document.querySelector('.rss-form'),
+        input: document.querySelector('#url-input'),
+        submit: document.querySelector('button[type="submit"]'),
+        feedback: document.querySelector('.feedback'),
+        feedsConteiner: document.querySelector('.feeds'),
+        postsConteiner: document.querySelector('.posts'),
+        modalWindow: document.querySelector('#modal'),
+        modalTitle: document.querySelector('.modal-title'),
+        modalBody: document.querySelector('.modal-body'),
+        modalBtnLink: document.querySelector('.full-article'),
+      };
+
+      app(state, elements, i18nextInstance);
+    });
+};
+
+export default initApp;

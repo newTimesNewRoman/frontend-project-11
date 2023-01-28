@@ -3,7 +3,7 @@ import _ from 'lodash';
 import getRSS from './getRSS';
 import parser from './parser';
 
-export default (watchedState) => {
+const update = (watchedState) => {
   const cb = () => {
     const savedUrls = watchedState.feeds.map((feed) => feed.url);
     const promises = savedUrls.map((url) => getRSS(url)
@@ -21,3 +21,5 @@ export default (watchedState) => {
   };
   setTimeout(cb, 5000);
 };
+
+export default update;

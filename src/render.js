@@ -121,7 +121,7 @@ const renderModalWindow = (state, value, elements) => {
   elements.modalBtnLink.setAttribute('href', dataPost.link);
 };
 
-export default (state, elements, i18next) => onChange(state, (path, value) => {
+const render = (state, elements, i18next) => onChange(state, (path, value) => {
   switch (path) {
     case 'form.error':
       renderError(value, elements, i18next);
@@ -148,3 +148,5 @@ export default (state, elements, i18next) => onChange(state, (path, value) => {
       throw new Error(`Unknown path: ${path}`);
   }
 });
+
+export default render;

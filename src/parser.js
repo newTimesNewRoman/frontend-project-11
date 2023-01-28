@@ -1,4 +1,4 @@
-export default (rss) => {
+const parserRSS = (rss) => {
   const parser = new DOMParser();
   const parsedRss = parser.parseFromString(rss.data.contents, 'application/xml');
   const parseError = parsedRss.querySelector('parsererror');
@@ -22,3 +22,5 @@ export default (rss) => {
     return [feed, posts];
   }
 };
+
+export default parserRSS;
