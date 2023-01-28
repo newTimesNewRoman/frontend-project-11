@@ -41,7 +41,9 @@ const app = (initState, elements, i18n) => {
         } else if (error.name === 'AxiosError') {
           watchedState.form.error = 'form.errors.networkProblems';
         } else {
-          watchedState.form.error = error.message;
+          watchedState.form.error = 'form.errors.unknownError';
+          // eslint-disable-next-line no-alert
+          alert(error);
         }
         watchedState.form.state = 'filling';
       });

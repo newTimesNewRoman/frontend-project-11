@@ -24,6 +24,7 @@ const handleProcessState = (processState, elements, i18next) => {
     case 'filling':
       elements.input.readOnly = false;
       elements.submit.disabled = false;
+      elements.submit.textContent = i18next.t('form.button.add');
       break;
     case 'processing':
       elements.input.readOnly = true;
