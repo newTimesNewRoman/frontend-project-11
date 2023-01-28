@@ -52,6 +52,13 @@ const app = (initState, elements, i18n) => {
     watchedState.ui.visitedPostsIds.add(postId);
     watchedState.ui.modalWindowPostId = postId;
   });
+
+  elements.postsConteiner.addEventListener('click', (event) => {
+    if (event.target.tagName === 'A') {
+      const postId = event.target.dataset.id;
+      watchedState.ui.visitedPostsIds.add(postId);
+    }
+  });
 };
 
 const initApp = () => {

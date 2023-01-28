@@ -2,6 +2,10 @@ export default {
   translation: {
     form: {
       success: 'RSS успешно загружен',
+      button: {
+        add: 'Добавить',
+        load: 'Загрузка',
+      },
       errors: {
         notUniqueUrl: 'RSS уже существует',
         required: 'Не должно быть пустым',

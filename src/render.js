@@ -28,10 +28,12 @@ const handleProcessState = (processState, elements, i18next) => {
     case 'processing':
       elements.input.readOnly = true;
       elements.submit.disabled = true;
+      elements.submit.textContent = i18next.t('form.button.load');
       break;
     case 'success':
       elements.input.readOnly = false;
       elements.submit.disabled = false;
+      elements.submit.textContent = i18next.t('form.button.add');
       elements.form.reset();
       elements.input.focus();
       elements.input.classList.remove('is-invalid');
