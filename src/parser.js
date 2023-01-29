@@ -15,13 +15,14 @@ const parserRSS = (rss) => {
     };
 
     const posts = Array.from(parsedRss.querySelectorAll('item'))
-      .map((item) => (
-        {
+      .map((item) => {
+        console.log(item);
+        return {
           title: item.querySelector('title').textContent,
           description: item.querySelector('description').textContent,
           link: item.querySelector('link').textContent,
-        }
-      ));
+        };
+      });
     return [feed, posts];
   }
 };
