@@ -28,6 +28,7 @@ const app = (initState, elements, i18n) => {
         return getRSS(url);
       })
       .then((rss) => {
+        console.log('rss', rss);
         const [feed, posts] = parser(rss);
         const feedId = _.uniqueId();
         const feedWithId = { id: feedId, ...feed };
