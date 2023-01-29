@@ -14,14 +14,18 @@ const app = (initState, elements, i18n) => {
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const { value } = elements.input;
+    // const { value } = elements.input;
+    const formData = new FormData(event.target);
+    const value = formData.get('url');
+    console.log('value', value);
     watchedState.form.valid = true;
     const urls = watchedState.feeds.map((feed) => feed.url);
     validate(value, urls, i18n)
-      .then((urlApp) => {
+      .then((url) => {
+        console.log('app', url);
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
-        return getRSS(urlApp);
+        return getRSS(url);
       })
       .then((rss) => {
         const [feed, posts] = parser(rss);
