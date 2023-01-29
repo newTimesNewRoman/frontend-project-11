@@ -14,9 +14,7 @@ const app = (initState, elements, i18n) => {
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
-    // const { value } = elements.input;
-    const formData = new FormData(event.target);
-    const value = formData.get('url');
+    const { value } = elements.input;
     console.log('value', value);
     watchedState.form.valid = true;
     const urls = watchedState.feeds.map((feed) => feed.url);
@@ -46,7 +44,8 @@ const app = (initState, elements, i18n) => {
         } else if (error.name === 'AxiosError') {
           watchedState.form.error = 'form.errors.networkProblems';
         } else {
-          watchedState.form.error = error.toString();
+          console.log('ERROR DEFAULT', error);
+          watchedState.form.error = i18n.t('form.errors.unknownError');
         }
         watchedState.form.state = 'filling';
       });

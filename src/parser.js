@@ -5,6 +5,7 @@ const parserRSS = (rss) => {
   const parseError = parsedRss.querySelector('parsererror');
   console.log(parsedRss, parseError);
   if (parseError) {
+    console.log('PARSE ERROR', parseError);
     throw new Error('ParseError');
   } else {
     const feed = {
