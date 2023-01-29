@@ -1,5 +1,6 @@
 const parserRSS = (rss) => {
-  console.log('parser', rss);
+  console.log('parser.data', rss.data);
+  console.log('parser.data.contents', rss.data.contents);
   const parser = new DOMParser();
   const parsedRss = parser.parseFromString(rss.data.contents, 'text/xml');
   const parseError = parsedRss.querySelector('parsererror');
