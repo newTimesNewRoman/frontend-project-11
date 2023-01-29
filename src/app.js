@@ -18,10 +18,10 @@ const app = (initState, elements, i18n) => {
     watchedState.form.valid = true;
     const urls = watchedState.feeds.map((feed) => feed.url);
     validate(value, urls, i18n)
-      .then((url) => {
+      .then((urlApp) => {
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
-        return getRSS(url);
+        return getRSS(urlApp);
       })
       .then((rss) => {
         const [feed, posts] = parser(rss);

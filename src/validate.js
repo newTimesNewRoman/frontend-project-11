@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const validate = (url, urls, i18next) => {
+const validate = (urlValidate, urls, i18next) => {
   yup.setLocale({
     string: {
       url: i18next.t('form.errors.invalidUrl'),
@@ -17,7 +17,7 @@ const validate = (url, urls, i18next) => {
     .notOneOf(urls);
 
   return schema
-    .validate(url)
+    .validate(urlValidate)
     .catch((error) => {
       throw error;
     });
