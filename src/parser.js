@@ -13,7 +13,7 @@ const parserRSS = (rss) => {
       description: parsedRss.querySelector('description').textContent,
       url: rss.data.status.url,
     };
-
+    console.log(feed);
     const posts = Array.from(parsedRss.querySelectorAll('item'))
       .map((item) => {
         console.log(item);
@@ -23,6 +23,7 @@ const parserRSS = (rss) => {
           link: item.querySelector('link').textContent,
         };
       });
+    console.log(posts);
     return [feed, posts];
   }
 };
