@@ -9,7 +9,8 @@ const update = (watchedState) => {
     const promises = savedUrls.map((url) => getRSS(url)
       .then((response) => {
         const [feed, posts] = parser(response);
-        const feedId = _.find(watchedState.feeds, (item) => item.url === feed.url).id;
+        const feedWithURL = { url, ...feed };
+        const feedId = _.find(watchedState.feeds, (item) => item.url === feedWithURL.url).id;
         const postsWithId = posts.map((post) => ({ id: _.uniqueId(), feedId, ...post }));
         const newPosts = _.differenceBy(postsWithId, Array.from(watchedState.posts), 'titlePost');
         if (newPosts.length !== 0) {

@@ -19,7 +19,6 @@ const validate = (urlValidate, urls, i18next) => {
   return schema
     .validate(urlValidate)
     .catch((error) => {
-      console.log('ERROR validate', error);
       throw error;
     });
 };

@@ -15,24 +15,21 @@ const app = (initState, elements, i18n) => {
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
     const { value } = elements.input;
-    console.log('value', value);
     watchedState.form.valid = true;
     const urls = watchedState.feeds.map((feed) => feed.url);
     validate(value, urls, i18n)
       .then((url) => {
-        console.log('app', url);
         watchedState.form.error = null;
         watchedState.form.state = 'processing';
         return getRSS(url);
       })
       .then((rss) => {
-        console.log('rss', rss);
         const [feed, posts] = parser(rss);
         const feedId = _.uniqueId();
-        const feedWithId = { id: feedId, ...feed };
+        const feedWithIdandURL = { id: feedId, url: value, ...feed };
         const postsWithId = posts.map((post) => ({ id: _.uniqueId(), feedId, ...post }));
         watchedState.form.state = 'success';
-        watchedState.feeds = [feedWithId, ...watchedState.feeds];
+        watchedState.feeds = [feedWithIdandURL, ...watchedState.feeds];
         watchedState.posts = [...postsWithId, ...watchedState.posts];
       })
       .catch((error) => {
@@ -44,7 +41,6 @@ const app = (initState, elements, i18n) => {
         } else if (error.name === 'AxiosError') {
           watchedState.form.error = 'form.errors.networkProblems';
         } else {
-          console.log('ERROR DEFAULT', error);
           watchedState.form.error = i18n.t('form.errors.unknownError');
         }
         watchedState.form.state = 'filling';
