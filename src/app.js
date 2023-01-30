@@ -9,18 +9,18 @@ import render from './render';
 import update from './update';
 
 const app = (initState, elements, i18n) => {
-  const watchedState = render(initState, elements, i18n);
-  update(watchedState);
+  const view = render(initState, elements, i18n);
+  update(view);
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
     const { value } = elements.input;
-    watchedState.form.valid = true;
-    const urls = watchedState.feeds.map((feed) => feed.url);
+    view.form.valid = true;
+    const urls = view.feeds.map((feed) => feed.url);
     validate(value, urls, i18n)
       .then((url) => {
-        watchedState.form.error = null;
-        watchedState.form.state = 'processing';
+        view.form.error = null;
+        view.form.state = 'processing';
         return getRSS(url);
       })
       .then((rss) => {
@@ -28,35 +28,35 @@ const app = (initState, elements, i18n) => {
         const feedId = _.uniqueId();
         const feedWithIdandURL = { id: feedId, url: value, ...feed };
         const postsWithId = posts.map((post) => ({ id: _.uniqueId(), feedId, ...post }));
-        watchedState.form.state = 'success';
-        watchedState.feeds = [feedWithIdandURL, ...watchedState.feeds];
-        watchedState.posts = [...postsWithId, ...watchedState.posts];
+        view.form.state = 'success';
+        view.feeds = [feedWithIdandURL, ...view.feeds];
+        view.posts = [...postsWithId, ...view.posts];
       })
       .catch((error) => {
-        watchedState.form.valid = error.name !== 'ValidationError';
+        view.form.valid = error.name !== 'ValidationError';
         if (error.name === 'ValidationError') {
-          watchedState.form.error = error.message;
+          view.form.error = error.message;
         } else if (error.message === 'ParseError') {
-          watchedState.form.error = i18n.t('form.errors.invalidRss');
+          view.form.error = i18n.t('form.errors.invalidRss');
         } else if (error.name === 'AxiosError') {
-          watchedState.form.error = 'form.errors.networkProblems';
+          view.form.error = 'form.errors.networkProblems';
         } else {
-          watchedState.form.error = i18n.t('form.errors.unknownError');
+          view.form.error = i18n.t('form.errors.unknownError');
         }
-        watchedState.form.state = 'filling';
+        view.form.state = 'filling';
       });
   });
 
   elements.modalWindow.addEventListener('show.bs.modal', (event) => {
     const postId = event.relatedTarget.dataset.id;
-    watchedState.ui.visitedPostsIds.add(postId);
-    watchedState.ui.modalWindowPostId = postId;
+    view.ui.visitedPostsIds.add(postId);
+    view.ui.modalWindowPostId = postId;
   });
 
   elements.postsConteiner.addEventListener('click', (event) => {
     if (event.target.tagName === 'A') {
       const postId = event.target.dataset.id;
-      watchedState.ui.visitedPostsIds.add(postId);
+      view.ui.visitedPostsIds.add(postId);
     }
   });
 };
