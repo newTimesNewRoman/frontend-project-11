@@ -61,6 +61,33 @@ const app = (initState, elements, i18n) => {
   });
 };
 
+const state = {
+  form: {
+    state: 'filling',
+    error: null,
+    valid: true,
+  },
+  feeds: [],
+  posts: [],
+  ui: {
+    modalWindowPostId: null,
+    visitedPostsIds: new Set(),
+  },
+};
+
+const elements = {
+  form: document.querySelector('.rss-form'),
+  input: document.querySelector('#url-input'),
+  submit: document.querySelector('button[type="submit"]'),
+  feedback: document.querySelector('.feedback'),
+  feedsConteiner: document.querySelector('.feeds'),
+  postsConteiner: document.querySelector('.posts'),
+  modalWindow: document.querySelector('#modal'),
+  modalTitle: document.querySelector('.modal-title'),
+  modalBody: document.querySelector('.modal-body'),
+  modalBtnLink: document.querySelector('.full-article'),
+};
+
 const initApp = () => {
   const i18nextInstance = i18next.createInstance();
   return i18nextInstance.init({
@@ -70,36 +97,7 @@ const initApp = () => {
       ru,
     },
   })
-    .then(() => {
-      const state = {
-        form: {
-          state: 'filling',
-          error: null,
-          valid: true,
-        },
-        feeds: [],
-        posts: [],
-        ui: {
-          modalWindowPostId: null,
-          visitedPostsIds: new Set(),
-        },
-      };
-
-      const elements = {
-        form: document.querySelector('.rss-form'),
-        input: document.querySelector('#url-input'),
-        submit: document.querySelector('button[type="submit"]'),
-        feedback: document.querySelector('.feedback'),
-        feedsConteiner: document.querySelector('.feeds'),
-        postsConteiner: document.querySelector('.posts'),
-        modalWindow: document.querySelector('#modal'),
-        modalTitle: document.querySelector('.modal-title'),
-        modalBody: document.querySelector('.modal-body'),
-        modalBtnLink: document.querySelector('.full-article'),
-      };
-
-      app(state, elements, i18nextInstance);
-    });
+    .then(() => app(state, elements, i18nextInstance));
 };
 
 export default initApp;
