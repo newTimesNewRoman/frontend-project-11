@@ -23,13 +23,13 @@ const handleProcessState = (processState, elements, i18next) => {
   switch (processState) {
     case 'filling':
       elements.input.readOnly = false;
-      elements.submit.disabled = false;
       elements.submit.textContent = i18next.t('form.button.add');
+      elements.submit.disabled = false;
       break;
     case 'processing':
-      elements.input.readOnly = true;
-      elements.submit.disabled = true;
       elements.submit.textContent = i18next.t('form.button.load');
+      elements.submit.disabled = true;
+      elements.input.readOnly = true;
       break;
     case 'success':
       elements.input.readOnly = false;
@@ -74,14 +74,7 @@ const renderFeeds = (value, elements, i18next) => {
   elements.feedsConteiner.prepend(headerFeeds);
 };
 
-const renderPosts = (state, elements, i18next) => {
-  const headerPosts = document.createElement('h2');
-  headerPosts.setAttribute('class', 'card-title h4');
-  headerPosts.textContent = i18next.t('posts');
-
-  const postsList = document.createElement('ul');
-  postsList.setAttribute('class', 'list-group mb-5');
-
+const postsRender = (state, i18next, container) => {
   state.posts.forEach((post) => {
     const postElement = document.createElement('li');
     postElement.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0');
@@ -105,8 +98,19 @@ const renderPosts = (state, elements, i18next) => {
     buttonElement.textContent = i18next.t('viewButton');
 
     postElement.append(linkElement, buttonElement);
-    postsList.prepend(postElement);
+    container.prepend(postElement);
   });
+};
+
+const renderPostsContainer = (state, elements, i18next) => {
+  const headerPosts = document.createElement('h2');
+  headerPosts.setAttribute('class', 'card-title h4');
+  headerPosts.textContent = i18next.t('posts');
+
+  const postsList = document.createElement('ul');
+  postsList.setAttribute('class', 'list-group mb-5');
+
+  postsRender(state, i18next, postsList);
   elements.postsConteiner.innerHTML = '';
   elements.postsConteiner.prepend(postsList);
   elements.postsConteiner.prepend(headerPosts);
@@ -139,7 +143,7 @@ const render = (state, elements, i18next) => onChange(state, (path, value) => {
       renderFeeds(value, elements, i18next);
       break;
     case 'posts':
-      renderPosts(state, elements, i18next);
+      renderPostsContainer(state, elements, i18next);
       break;
     case 'ui.visitedPostsIds':
       markVisitedPosts(value);
